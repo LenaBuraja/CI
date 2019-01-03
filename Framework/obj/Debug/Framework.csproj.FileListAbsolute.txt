@@ -12,3 +12,17 @@ F:\Labs\Testing\Framework\Framework\obj\Debug\Framework.csproj.CoreCompileInputs
 F:\Labs\Testing\Framework\Framework\obj\Debug\Framework.csproj.CopyComplete
 F:\Labs\Testing\Framework\Framework\obj\Debug\Framework.dll
 F:\Labs\Testing\Framework\Framework\obj\Debug\Framework.pdb
+F:\Labs\CI\Framework\bin\Debug\Framework.dll
+F:\Labs\CI\Framework\bin\Debug\Framework.pdb
+F:\Labs\CI\Framework\bin\Debug\nunit.framework.dll
+F:\Labs\CI\Framework\bin\Debug\WebDriver.dll
+F:\Labs\CI\Framework\bin\Debug\WebDriver.Support.dll
+F:\Labs\CI\Framework\bin\Debug\nunit.framework.pdb
+F:\Labs\CI\Framework\bin\Debug\nunit.framework.xml
+F:\Labs\CI\Framework\bin\Debug\WebDriver.xml
+F:\Labs\CI\Framework\bin\Debug\WebDriver.Support.xml
+F:\Labs\CI\Framework\obj\Debug\Framework.csprojAssemblyReference.cache
+F:\Labs\CI\Framework\obj\Debug\Framework.csproj.CoreCompileInputs.cache
+F:\Labs\CI\Framework\obj\Debug\Framework.csproj.CopyComplete
+F:\Labs\CI\Framework\obj\Debug\Framework.dll
+F:\Labs\CI\Framework\obj\Debug\Framework.pdb
