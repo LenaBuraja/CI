@@ -70,7 +70,7 @@ namespace Framework.Pages
             {
                 if (elem.Displayed)
                 {
-                    listAtributesTicketsDirectFlight.Add(elem.GetAttribute("class"));
+                    listAtributesTicketsDirectFlight.Add(elem.Text);
                 }
             }
             return listAtributesTicketsDirectFlight;

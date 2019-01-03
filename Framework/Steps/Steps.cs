@@ -104,7 +104,7 @@ namespace Framework.Steps
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
             HashSet<string> listAtributesTicketsDirectFlight = findTicketsPage.GetListAtributesTicketsDirectFlight();
-            return listAtributesTicketsDirectFlight.Contains("direct_flight") && (listAtributesTicketsDirectFlight.Count == 1);
+            return listAtributesTicketsDirectFlight.Contains("ПРЯМОЙ ПЕРЕЛЁТ") && (listAtributesTicketsDirectFlight.Count == 1);
         }
 
         public bool isAllTicketsWithoutBag()
