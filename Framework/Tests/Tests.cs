@@ -9,8 +9,8 @@ namespace Framework.Tests
     class Tests
     {
         private Steps.Steps steps = new Steps.Steps();
-        private const string CITY_ORIGIN = "Минск";
-        private const string CITY_DISTINATION = "Париж";
+        private const string CITY_ORIGIN = "Minsk";
+        private const string CITY_DISTINATION = "Paris";
 
         [SetUp]
         public void Init()
