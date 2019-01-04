@@ -6,6 +6,18 @@ namespace Framework.Pages
 {
     class FindTicketsPage
     {
+        [FindsBy(How = How.XPath, Using = "//input[@role='flights-dates-depart']")]
+        private IWebElement departDate;
+
+        [FindsBy(How = How.XPath, Using = "//input[@role='flights-dates-return']")]
+        private IWebElement returnDate;
+
+        [FindsBy(How = How.XPath, Using = "//input[@name,'origin_name']")]
+        private IWebElement originName;
+
+        [FindsBy(How = How.XPath, Using = "//input[@name='destination_name']")]
+        private IWebElement destinationName;
+
         [FindsBy(How = How.XPath, Using = "//label[@for='baggage_filter']")]
         private IWebElement labelLuggageFilter;
 
@@ -18,13 +30,25 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//label[@for='stops_count_filter_0']")]
         private IWebElement filterDirectFlight;
 
-        [FindsBy(How = How.XPath, Using = "//div[@class='title title-dropdown semibold closed'][contains(.,'Авиакомпании')]")]
+        [FindsBy(How = How.XPath, Using = "//div[@class='filter filter--airlines_filter']/div/div")]
         private IWebElement listAircompany;
 
         [FindsBy(How = How.XPath, Using = "//label[@for='airlines_filter']")]
         private IWebElement filterAircompany;
 
-        [FindsBy(How = How.XPath, Using = "//label[@class='label-block name airlines-label g-text-overflow'][contains(.,'БелавиаТолько')]")]
+        [FindsBy(How = How.XPath, Using = "//div[@role='filter-toggler']")]
+        private IWebElement listAirport;
+
+        [FindsBy(How = How.XPath, Using = "//label[@for='arrival_airports']")]
+        private IWebElement filterAirport;
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='filter filter--gates_filter']/div/div")]
+        private IWebElement listAgency;
+
+        [FindsBy(How = How.XPath, Using = "//label[@for='gates_filter']")]
+        private IWebElement filterAgency;
+
+        [FindsBy(How = How.XPath, Using = "//label[@for='airlines_filter_B2']")]
         private IWebElement filterAircompanyBelavia;
 
         [FindsBy(How = How.XPath, Using = "//section[@class='flight-brief-layovers']")]
@@ -36,12 +60,38 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//div[contains(@class,'ticket-action-airline-container')]")]
         private IList<IWebElement> ticketsAircompanyBelavia;
 
+        [FindsBy(How = How.XPath, Using = "//div[@class='ticket-action__main_proposal']")]
+        private IList<IWebElement> ticketsAgency;
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='flight-brief-layover__iata']")]
+        private IList<IWebElement> ticketsAirport;
+
         private IWebDriver driver;
 
         public FindTicketsPage(IWebDriver _driver)
         {
             this.driver = _driver;
             PageFactory.InitElements(this.driver, this);
+        }
+
+        public string GetDepartDate()
+        {
+            return departDate.GetAttribute("value");
+        }
+
+        public string GetReturnDate()
+        {
+            return returnDate.GetAttribute("value");
+        }
+
+        public string GetOriginCity()
+        {
+            return originName.GetAttribute("value");
+        }
+
+        public string GetDestinationCity()
+        {
+            return destinationName.GetAttribute("value");
         }
 
         public void FilterLuggage()
@@ -56,9 +106,16 @@ namespace Framework.Pages
             filterDirectFlight.Click();
         }
 
-        public void FilterAirport()
+        public void FilterAircompany()
         {
             listAircompany.Click();
+            filterAircompany.Click();
+            filterAircompanyBelavia.Click();
+        }
+
+        public void FilterAirport()
+        {
+            listAirport.Click();
             filterAircompany.Click();
             filterAircompanyBelavia.Click();
         }
@@ -70,7 +127,7 @@ namespace Framework.Pages
             {
                 if (elem.Displayed)
                 {
-                    listAtributesTicketsDirectFlight.Add(elem.Text);
+                    listAtributesTicketsDirectFlight.Add(elem.GetAttribute("class"));
                 }
             }
             return listAtributesTicketsDirectFlight;
@@ -115,8 +172,31 @@ namespace Framework.Pages
             return listAtributesTicketsUrlImage;
         }
 
-        //создать метод для установки ценны на слайдере
-        //получить в px длину слайдера
-        //получить какой ценовой диапазон
+        public HashSet<string> GetListAtributesTicketsFromAviakassa ()
+        {
+            HashSet<string> listAtributesTicketsFromAviakassa = new HashSet<string>();
+            foreach (IWebElement elem in ticketsAgency)
+            {
+                if (elem.Displayed)
+                {
+                    listAtributesTicketsFromAviakassa.Add(elem.GetAttribute("value"));
+                }
+            }
+            return listAtributesTicketsFromAviakassa;
+        }
+
+        public HashSet<string> GetListAtributesTicketsWithAirportCDG()
+        {
+            HashSet<string> listAtributesTicketsWithAirportCDG = new HashSet<string>();
+            foreach (IWebElement elem in ticketsAirport)
+            {
+                if (elem.Displayed)
+                {
+                    listAtributesTicketsWithAirportCDG.Add(elem.GetAttribute("value"));
+                }
+            }
+            return listAtributesTicketsWithAirportCDG;
+        }
+
     }
 }

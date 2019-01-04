@@ -9,8 +9,8 @@ namespace Framework.Tests
     class Tests
     {
         private Steps.Steps steps = new Steps.Steps();
-        private const string CITY_ORIGIN = "Minsk";
-        private const string CITY_DISTINATION = "Paris";
+        private const string CITY_ORIGIN = "Минск";
+        private const string CITY_DISTINATION = "Париж";
 
         [SetUp]
         public void Init()
@@ -24,7 +24,7 @@ namespace Framework.Tests
             steps.CloseBrowser();
         }
 
-        [Test] //6
+        [Test]
         public void DisplayFoundFlightsDirectFlight()
         {
             steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
@@ -32,7 +32,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsWithDirectFlight());
         }
 
-        [Test] //2
+        [Test]
         public void SearchForAirticketsWithLuggage()
         {
             steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
@@ -40,7 +40,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsWithoutBag() && steps.isAllTicketsWithoutLuggage());
         }
 
-        [Test] //5
+        [Test]
         public void DisplayFoundAirticketsAirlineBelavia()
         {
             steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
@@ -48,70 +48,49 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsWithoutUrlImage());
         }
 
-        [Test] //3
+        [Test]
         public void AutocorrectionReturnDateFieldWhenChangingDepartureDateWithFlagBackAndForth()
         {
             List<string> listDates = steps.GetDates();
             DateTime returnDate = DateTime.Parse(listDates[0]);
             DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            Assert.IsTrue(returnDate >= departDate);
         }
 
-        [Test] //1
-        public void FoundTicketsAccordanceSpecifiedClass()
+        [Test]
+        public void SearchDataMatchWithDataEntered()
         {
-            ////div[@class="whideSelect"]/*/div[@class="whideSelect"]/ul/li
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
+            Dictionary<string, string> getDatasStsrtPage = steps.GetDatasStartPage();
+            Dictionary<string, string> getDatasFindTicketsPage = steps.GetDatasFindTicketsPage();
+            Assert.IsTrue(getDatasStsrtPage["cityOrigin"] == getDatasFindTicketsPage["cityOrigin"]
+                && getDatasStsrtPage["cityDestination"] == getDatasFindTicketsPage["cityDestination"]
+                && getDatasStsrtPage["departDate"] == getDatasFindTicketsPage["departDate"]
+                && getDatasStsrtPage["returnDate"] == getDatasFindTicketsPage["returnDate"]);
         }
 
-        [Test] //4 FoundTicketsAccordanceSpecifiedPriceRange
-        public void FoundTicketsAccordanceSpecifiedPriceRange()
+        [Test]
+        public void DisplayFoundAirticketsAgencyAviakassa()
         {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FilterFlightInFindTicketsPage();
+            Assert.IsTrue(steps.isAllTicketsFromAviakassa());
         }
 
-        [Test] //7 FoundFlightsAccordanceSpecifiedTimeRange
-        public void FoundFlightsAccordanceSpecifiedTimeRange()
+        [Test]
+        public void DisplayFoundAirticketsAirportCDG()
         {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FilterFlightInFindTicketsPage();
+            Assert.IsTrue(steps.isAllTicketsWithAirportCDG());
         }
 
-        [Test] //8 ImplementationOfSearchTicketForSpecialsOffer
-        public void ImplementationOfSearchTicketForSpecialsOffer()
-        {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
-        }
-
-        [Test] //9 ExcessOfBabiesOverAdultsWhenSearchingForAirtickets
+        [Test]
         public void ExcessOfBabiesOverAdultsWhenSearchingForAirtickets()
         {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            steps.FillInFormAndSetCountBabies(CITY_ORIGIN, CITY_DISTINATION, 4);
+            steps.FilterFlightInFindTicketsPage();
+            Assert.IsTrue(steps.isAllTicketsFromAviakassa());
         }
-
-        [Test] //10 RightPricesWhenMonitoringPrices
-        public void RightPricesWhenMonitoringPrices()
-        {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
-        }
-
-
     }
 }

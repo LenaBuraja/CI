@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Framework.Pages
@@ -14,6 +15,9 @@ namespace Framework.Pages
 
         [FindsBy(How = How.XPath, Using = "//input[@id='destination_name']")]
         private IWebElement destinationName;
+
+        [FindsBy(How = How.XPath, Using = "//label[@for='infants']/../span/div/div")]
+        private IWebElement countBabies;
 
         [FindsBy(How = How.XPath, Using = "//span[@class='avs_ac_iata'][contains(.,'MSQ')]")]
         private IWebElement airportOrigin;
@@ -64,12 +68,20 @@ namespace Framework.Pages
         {
             departDate.Clear();
             departDate.SendKeys(valueDate.ToString("yyyy-MM-dd"));
+            departDate.SendKeys(Keys.Enter);
         }
 
         public void SetReturnDate(DateTime valueDate)
         {
             returnDate.Clear();
             returnDate.SendKeys(valueDate.ToString("yyyy-MM-dd"));
+            returnDate.SendKeys(Keys.Enter);
+        }
+
+        public void SetCountBabies(int count)
+        {
+            countBabies.Clear();
+            countBabies.SendKeys(count.ToString());
         }
 
         public string GetDepartDate()
@@ -80,6 +92,22 @@ namespace Framework.Pages
         public string GetReturnDate()
         {
             return returnDate.GetAttribute("value");
+        }
+
+        public string GetOriginCity()
+        {
+            return originName.GetAttribute("value");
+        }
+
+        public string GetDestinationCity()
+        {
+            return destinationName.GetAttribute("value");
+        }
+
+        public Dictionary<string, string> GetDatas()
+        {
+            Dictionary<string, string> getDatas = new Dictionary<string, string>();
+            return getDatas;
         }
 
         public void ClickButtonSearch()
