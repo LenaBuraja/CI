@@ -21,7 +21,7 @@ namespace Framework.Steps
             Driver.Driver.CloseBrowser();
         }
 
-        public void FillInForm(string cityOrigin, string cityDestination)
+        public StartPage FillInForm(string cityOrigin, string cityDestination)
         {
             StartPage startPage = new StartPage(driver);
             startPage.OpenPage();
@@ -29,19 +29,34 @@ namespace Framework.Steps
             DateTime dateCurent = DateTime.Today;
             startPage.SetDepartDate(dateCurent.AddMonths(1));
             startPage.SetReturnDate(dateCurent.AddMonths(1).AddDays(3));
-            startPage.ClickButtonSearch();
+            return startPage;
         }
 
-        public void FillInFormForModeOneWay(string cityOrigin, string cityDestination)
+        public StartPage FillInFormForModeOneWay(string cityOrigin, string cityDestination)
         {
             StartPage startPage = new StartPage(driver);
             startPage.OpenPage();
             DateTime dateCurent = DateTime.Today;
             startPage.SetDepartDate(dateCurent.AddMonths(1));
+            return startPage;
+        }
+
+        public void ClickButtonForSearch(StartPage startPage)
+        {
             startPage.ClickButtonSearch();
         }
 
-        public void FillInFormAndSetCountBabies(string cityOrigin, string cityDestination, int countBabies)
+        public void FillInFormWithClick(string cityOrigin, string cityDestination)
+        {
+            FillInForm(cityOrigin, cityDestination).ClickButtonSearch();
+        }
+
+        public void FillInFormForModeOneWayWithClick(string cityOrigin, string cityDestination)
+        {
+            FillInFormForModeOneWay(cityOrigin, cityDestination).ClickButtonSearch();
+        }
+
+        public void FillInFormAndSetCountBabies(string cityOrigin, string cityDestination)
         {
             StartPage startPage = new StartPage(driver);
             startPage.OpenPage();
@@ -49,7 +64,7 @@ namespace Framework.Steps
             DateTime dateCurent = DateTime.Today;
             startPage.SetDepartDate(dateCurent.AddMonths(1));
             startPage.SetReturnDate(dateCurent.AddMonths(1).AddDays(3));
-            startPage.SetCountBabies(countBabies);
+            startPage.SetCountBabies();
             startPage.ClickButtonSearch();
         }
 
@@ -94,14 +109,20 @@ namespace Framework.Steps
             return dates;
         }
 
-        public Dictionary<string, string> GetDatasStartPage()
+        public Dictionary<string, string> GetDatasStartPage(StartPage startPage)
         {
-            StartPage startPage = this.OpenStartPage();
             Dictionary<string, string> getDatas = new Dictionary<string, string>();
             getDatas["cityOrigin"] = startPage.GetOriginCity();
             getDatas["cityDestination"] = startPage.GetDestinationCity();
             getDatas["departDate"] = startPage.GetDepartDate();
             getDatas["returnDate"] = startPage.GetReturnDate();
+            return getDatas;
+        }
+
+        public Dictionary<string, string> GetDatasStartPageWithClickSearch(StartPage startPage)
+        {
+            Dictionary<string, string> getDatas = this.GetDatasStartPage(startPage);
+            this.ClickButtonForSearch(startPage);
             return getDatas;
         }
 
@@ -128,6 +149,18 @@ namespace Framework.Steps
             findTicketsPage.FilterFlight();
         }
 
+        public void FilterAircompanyInFindTicketsPage()
+        {
+            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
+            findTicketsPage.FilterAircompany();
+        }
+
+        public void FilterAgencyInFindTicketsPage()
+        {
+            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
+            findTicketsPage.FilterAgency();
+        }
+
         public void FilterAirportInFindTicketsPage()
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
@@ -138,48 +171,50 @@ namespace Framework.Steps
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
             HashSet<string> listAtributesTicketsDirectFlight = findTicketsPage.GetListAtributesTicketsDirectFlight();
-            return listAtributesTicketsDirectFlight.Contains("direct_flight") && (listAtributesTicketsDirectFlight.Count == 1);
-        }
-
-        public bool isAllTicketsWithoutBag()
-        {
-            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
-            HashSet<string> listAtributesTicketsHandbags = findTicketsPage.GetListAtributesTicketsHandbags();
-            return listAtributesTicketsHandbags.Contains("unknown-handbags") && (listAtributesTicketsHandbags.Count == 1);
+            return listAtributesTicketsDirectFlight.Count != 0 ? listAtributesTicketsDirectFlight.Contains("flight-brief-layovers__direct_flight") && (listAtributesTicketsDirectFlight.Count == 1) : true;
         }
 
         public bool isAllTicketsWithoutLuggage()
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
             HashSet<string> listAtributesTicketsLuggage = findTicketsPage.GetListAtributesTicketsLuggage();
-            return listAtributesTicketsLuggage.Contains("without-baggage") && (listAtributesTicketsLuggage.Count == 1);
+            bool isWithoutLuggage = true;
+            foreach (string item in listAtributesTicketsLuggage)
+            {
+                if (!item.Contains("without-baggage"))
+                {
+                    isWithoutLuggage = false;
+                    break;
+                }
+            }
+            return listAtributesTicketsLuggage.Count != 0 ? isWithoutLuggage && (listAtributesTicketsLuggage.Count == 1) : true;
         }
 
         public bool isAllTicketsWithoutUrlImage()
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
             HashSet<string> listAtributesTicketsUrlImage = findTicketsPage.GetListAtributesTicketsUrlImage();
-            return listAtributesTicketsUrlImage.Contains("/images/airline/120/35/gravity=west/B2@2x.png") && (listAtributesTicketsUrlImage.Count == 1);
+            return listAtributesTicketsUrlImage.Count != 0 ? listAtributesTicketsUrlImage.Contains("http://nano.avia-booking.com/images/airline/120/35/gravity=west/B2@2x.png") && (listAtributesTicketsUrlImage.Count == 1) : true;
         }
 
-        public bool isAllTicketsFromAviakassa()
+        public bool isAllTicketsFromBelavia()
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
-            HashSet<string> listAtributesTicketsFromAviakassa = findTicketsPage.GetListAtributesTicketsFromAviakassa();
-            return listAtributesTicketsFromAviakassa.Contains("Aviakassa") && (listAtributesTicketsFromAviakassa.Count == 1);
+            HashSet<string> listAtributesTicketsFromBelavia = findTicketsPage.GetListAtributesTicketsFromBelavia();
+            return listAtributesTicketsFromBelavia.Count != 0 ? listAtributesTicketsFromBelavia.Contains("Belavia") && (listAtributesTicketsFromBelavia.Count == 1) : true;
         }
 
         public bool isAllTicketsWithAirportCDG()
         {
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
             HashSet<string> listAtributesTicketsWithAirportCDG = findTicketsPage.GetListAtributesTicketsWithAirportCDG();
-            return listAtributesTicketsWithAirportCDG.Contains("CDG") && (listAtributesTicketsWithAirportCDG.Count == 1);
+            return listAtributesTicketsWithAirportCDG.Count != 0 ? listAtributesTicketsWithAirportCDG.Contains("CDG") && (listAtributesTicketsWithAirportCDG.Count == 1) : true;
         }
 
-        //public bool isMessageIncorrectForm()
-        //{
-        //    FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
-        //    return listAtributesTicketsWithAirportCDG.Contains("CDG");
-        //}
+        public bool isMessageIncorrectForm()
+        {
+            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
+            return findTicketsPage.GetMessageError();
+        }
     }
 }

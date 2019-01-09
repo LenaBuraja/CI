@@ -78,10 +78,12 @@ namespace Framework.Pages
             returnDate.SendKeys(Keys.Enter);
         }
 
-        public void SetCountBabies(int count)
+        public void SetCountBabies()
         {
-            countBabies.Clear();
-            countBabies.SendKeys(count.ToString());
+            form.Click();
+            countBabies.Click();
+            IList<IWebElement> items = countBabies.FindElements(By.XPath("...//ul/li"));
+            items[items.Count - 1].Click();
         }
 
         public string GetDepartDate()

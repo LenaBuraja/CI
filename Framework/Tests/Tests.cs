@@ -24,31 +24,31 @@ namespace Framework.Tests
             steps.CloseBrowser();
         }
 
-        [Test]
+        [Test] //+
         public void DisplayFoundFlightsDirectFlight()
         {
-            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
             steps.FilterFlightInFindTicketsPage();
             Assert.IsTrue(steps.isAllTicketsWithDirectFlight());
         }
 
-        [Test]
+        [Test] //+
         public void SearchForAirticketsWithLuggage()
         {
-            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
             steps.FilterLuggageInFindTicketsPage();
-            Assert.IsTrue(steps.isAllTicketsWithoutBag() && steps.isAllTicketsWithoutLuggage());
+            Assert.IsTrue(steps.isAllTicketsWithoutLuggage());
         }
 
-        [Test]
+        [Test] //+
         public void DisplayFoundAirticketsAirlineBelavia()
         {
-            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
-            steps.FilterAirportInFindTicketsPage();
+            steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FilterAircompanyInFindTicketsPage();
             Assert.IsTrue(steps.isAllTicketsWithoutUrlImage());
         }
 
-        [Test]
+        [Test] //+
         public void AutocorrectionReturnDateFieldWhenChangingDepartureDateWithFlagBackAndForth()
         {
             List<string> listDates = steps.GetDates();
@@ -57,11 +57,10 @@ namespace Framework.Tests
             Assert.IsTrue(returnDate >= departDate);
         }
 
-        [Test]
+        [Test] //+
         public void SearchDataMatchWithDataEntered()
         {
-            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
-            Dictionary<string, string> getDatasStsrtPage = steps.GetDatasStartPage();
+            Dictionary<string, string> getDatasStsrtPage = steps.GetDatasStartPageWithClickSearch(steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION));
             Dictionary<string, string> getDatasFindTicketsPage = steps.GetDatasFindTicketsPage();
             Assert.IsTrue(getDatasStsrtPage["cityOrigin"] == getDatasFindTicketsPage["cityOrigin"]
                 && getDatasStsrtPage["cityDestination"] == getDatasFindTicketsPage["cityDestination"]
@@ -69,18 +68,18 @@ namespace Framework.Tests
                 && getDatasStsrtPage["returnDate"] == getDatasFindTicketsPage["returnDate"]);
         }
 
-        [Test]
-        public void DisplayFoundAirticketsAgencyAviakassa()
+        [Test] //+
+        public void DisplayFoundAirticketsAgencyBelavia()
         {
-            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
-            steps.FilterFlightInFindTicketsPage();
-            Assert.IsTrue(steps.isAllTicketsFromAviakassa());
+            steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FilterAirportInFindTicketsPage();
+            Assert.IsTrue(steps.isAllTicketsWithAirportCDG());
         }
 
-        [Test]
+        [Test] //+
         public void DisplayFoundAirticketsAirportCDG()
         {
-            steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION);
+            steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
             steps.FilterFlightInFindTicketsPage();
             Assert.IsTrue(steps.isAllTicketsWithAirportCDG());
         }
@@ -88,9 +87,27 @@ namespace Framework.Tests
         [Test]
         public void ExcessOfBabiesOverAdultsWhenSearchingForAirtickets()
         {
-            steps.FillInFormAndSetCountBabies(CITY_ORIGIN, CITY_DISTINATION, 4);
+            steps.FillInFormAndSetCountBabies(CITY_ORIGIN, CITY_DISTINATION);
             steps.FilterFlightInFindTicketsPage();
-            Assert.IsTrue(steps.isAllTicketsFromAviakassa());
+            Assert.IsTrue(steps.isMessageIncorrectForm());
+        }
+
+        [Test]
+        public void DisplayFoundAirticketsInOneWayWhenSelectedModeOneWay()
+        {
+            List<string> listDates = steps.GetDates();
+            DateTime returnDate = DateTime.Parse(listDates[0]);
+            DateTime departDate = DateTime.Parse(listDates[1]);
+            Assert.IsTrue(returnDate > departDate);
+        }
+
+        [Test]
+        public void ChangeArrivalCityInAirlineTicketsWhenEnteringNewArrivalCitySearchParameters()
+        {
+            List<string> listDates = steps.GetDates();
+            DateTime returnDate = DateTime.Parse(listDates[0]);
+            DateTime departDate = DateTime.Parse(listDates[1]);
+            Assert.IsTrue(returnDate > departDate);
         }
     }
 }
