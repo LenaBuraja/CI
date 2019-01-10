@@ -76,6 +76,11 @@ namespace Framework.Steps
             startPage.SetDepartDate(dateCurent.AddMonths(1));
         }
 
+        public void SetOtherArrivialCity(string city) {
+            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
+            findTicketsPage.SetOtherArrivialCityAndSearch(city);
+        }
+
         private StartPage OpenStartPage()
         {
             StartPage startPage = new StartPage(driver);
@@ -209,6 +214,26 @@ namespace Framework.Steps
             FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
             HashSet<string> listAtributesTicketsWithAirportCDG = findTicketsPage.GetListAtributesTicketsWithAirportCDG();
             return listAtributesTicketsWithAirportCDG.Count != 0 ? listAtributesTicketsWithAirportCDG.Contains("CDG") && (listAtributesTicketsWithAirportCDG.Count == 1) : true;
+        }
+
+        public bool isAllTicketsInModeOneWay()
+        {
+            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
+            HashSet<string> listElimentDtailsTikets = findTicketsPage.GetListElimentDetailsTikets();
+            return listElimentDtailsTikets.Count != 0 ? !listElimentDtailsTikets.Contains("flight flight--return") : true;
+        }
+
+        public bool isTiketsWithNewCity()
+        {
+            FindTicketsPage findTicketsPage = new FindTicketsPage(driver);
+            HashSet<string> listAirports = findTicketsPage.GetListAtributesTicketsWithAirportCDG();
+            bool isValidAirport = true;
+            foreach(string airport in listAirports)
+            {
+                isValidAirport = airport.Contains("LHR") || airport.Contains("LGW") || airport.Contains("LCY");
+                if (!isValidAirport) break;
+            }
+            return isValidAirport;
         }
 
         public bool isMessageIncorrectForm()

@@ -19,6 +19,12 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//span[@role='flights-destination_country__pseudo']")]
         private IWebElement destinationName;
 
+        [FindsBy(How = How.XPath, Using = "//input[@name='destination_name']")]
+        private IWebElement inputDestinationName;
+
+        [FindsBy(How = How.XPath, Using = "//button[@role='flights_submit']")]
+        private IWebElement buttonSearch;
+
         [FindsBy(How = How.XPath, Using = "//label[@for='baggage_filter']")]
         private IWebElement labelLuggageFilter;
 
@@ -37,7 +43,7 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//label[@for='airlines_filter']")]
         private IWebElement filterAircompany;
 
-        [FindsBy(How = How.XPath, Using = "//div[@role='filter-toggler']")]
+        [FindsBy(How = How.XPath, Using = "//div[@role='filter-toggler'][@class='title title-dropdown semibold closed']")]
         private IWebElement listAirport;
 
         [FindsBy(How = How.XPath, Using = "//label[@for='arrival_airports']")]
@@ -73,6 +79,9 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//div[@class='flight flight--depart']//div[@class='flight-brief-layover__iata']/span")]
         private IList<IWebElement> ticketsAirport;
 
+        [FindsBy(How = How.XPath, Using = "//div[@class='ticket-details']//div")]
+        private IList<IWebElement> ticketsDetails;
+
         [FindsBy(How = How.XPath, Using = "//div[@class='message message--bad_search_params']")]
         private IWebElement messageError;
 
@@ -84,27 +93,31 @@ namespace Framework.Pages
             PageFactory.InitElements(this.driver, this);
         }
 
+        public void SetOtherArrivialCityAndSearch(string city)
+        {
+            inputDestinationName.Click();
+            inputDestinationName.Clear();
+            inputDestinationName.SendKeys(city);
+            buttonSearch.Click();
+        }
+
         public string GetDepartDate()
         {
-            Console.WriteLine(departDate.GetAttribute("value"));
             return departDate.GetAttribute("value");
         }
 
         public string GetReturnDate()
         {
-            Console.WriteLine(returnDate.GetAttribute("value"));
             return returnDate.GetAttribute("value");
         }
 
         public string GetOriginCity()
         {
-            Console.WriteLine(originName.Text);
             return originName.Text;
         }
 
         public string GetDestinationCity()
         {
-            Console.WriteLine(destinationName.Text);
             return destinationName.Text;
         }
 
@@ -206,6 +219,19 @@ namespace Framework.Pages
                 }
             }
             return listAtributesTicketsWithAirportCDG;
+        }
+
+        public HashSet<string> GetListElimentDetailsTikets()
+        {
+            HashSet<string> listElimentDtailsTikets = new HashSet<string>();
+            foreach (IWebElement elem in ticketsDetails)
+            {
+                if (elem.Displayed)
+                {
+                    listElimentDtailsTikets.Add(elem.GetAttribute("class"));
+                }
+            }
+            return listElimentDtailsTikets;
         }
 
         public bool GetMessageError()

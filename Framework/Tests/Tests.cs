@@ -11,6 +11,7 @@ namespace Framework.Tests
         private Steps.Steps steps = new Steps.Steps();
         private const string CITY_ORIGIN = "Minsk";
         private const string CITY_DISTINATION = "Paris";
+        private const string OTHER_CITY_DISTINATION = "London";
 
         [SetUp]
         public void Init()
@@ -72,15 +73,15 @@ namespace Framework.Tests
         public void DisplayFoundAirticketsAgencyBelavia()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
-            steps.FilterAirportInFindTicketsPage();
-            Assert.IsTrue(steps.isAllTicketsWithAirportCDG());
+            steps.FilterAgencyInFindTicketsPage();
+            Assert.IsTrue(steps.isAllTicketsFromBelavia());
         }
 
         [Test] //+
         public void DisplayFoundAirticketsAirportCDG()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
-            steps.FilterFlightInFindTicketsPage();
+            steps.FilterAirportInFindTicketsPage();
             Assert.IsTrue(steps.isAllTicketsWithAirportCDG());
         }
 
@@ -88,26 +89,22 @@ namespace Framework.Tests
         public void ExcessOfBabiesOverAdultsWhenSearchingForAirtickets()
         {
             steps.FillInFormAndSetCountBabies(CITY_ORIGIN, CITY_DISTINATION);
-            steps.FilterFlightInFindTicketsPage();
             Assert.IsTrue(steps.isMessageIncorrectForm());
         }
 
-        [Test]
+        [Test] //+
         public void DisplayFoundAirticketsInOneWayWhenSelectedModeOneWay()
         {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            steps.FillInFormForModeOneWayWithClick(CITY_ORIGIN, CITY_DISTINATION);
+            Assert.IsTrue(steps.isAllTicketsInModeOneWay());
         }
 
         [Test]
         public void ChangeArrivalCityInAirlineTicketsWhenEnteringNewArrivalCitySearchParameters()
         {
-            List<string> listDates = steps.GetDates();
-            DateTime returnDate = DateTime.Parse(listDates[0]);
-            DateTime departDate = DateTime.Parse(listDates[1]);
-            Assert.IsTrue(returnDate > departDate);
+            steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
+            steps.SetOtherArrivialCity(OTHER_CITY_DISTINATION);
+            Assert.IsTrue(steps.isTiketsWithNewCity());
         }
     }
 }
