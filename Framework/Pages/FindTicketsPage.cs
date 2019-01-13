@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Support.PageObjects;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Framework.Pages
 {
@@ -123,18 +124,21 @@ namespace Framework.Pages
 
         public void FilterLuggage()
         {
+            Thread.Sleep(2000);
             labelLuggageFilter.Click();
             filterLuggageAndBags.Click();
         }
 
         public void FilterFlight()
         {
+            Thread.Sleep(2000);
             filterStopsCount.Click();
             filterDirectFlight.Click();
         }
 
         public void FilterAircompany()
         {
+            Thread.Sleep(2000);
             listAircompany.Click();
             filterAircompany.Click();
             filterAircompanyBelavia.Click();
@@ -142,6 +146,7 @@ namespace Framework.Pages
 
         public void FilterAirport()
         {
+            Thread.Sleep(2000);
             listAirport.Click();
             filterAirport.Click();
             filterAirportCDG.Click();
@@ -149,6 +154,7 @@ namespace Framework.Pages
 
         public void FilterAgency()
         {
+            Thread.Sleep(2000);
             listAgency.Click();
             filterAgency.Click();
             filterAgencyBelavia.Click();

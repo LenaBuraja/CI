@@ -55,11 +55,13 @@ namespace Framework.Pages
             originName.Click();
             originName.SendKeys(cityOrigin);
             originName.Click();
+            Thread.Sleep(2000);
             airportOrigin.Click();
             airportOrigin.Click();
             destinationName.Click();
             destinationName.SendKeys(cityDestination);
             destinationName.Click();
+            Thread.Sleep(2000);
             airportDestination.Click();
             airportDestination.Click();
         }
@@ -82,6 +84,7 @@ namespace Framework.Pages
         {
             form.Click();
             countBabies.Click();
+            Thread.Sleep(2000);
             IList<IWebElement> items = countBabies.FindElements(By.XPath("...//ul/li"));
             items[items.Count - 1].Click();
         }
