@@ -25,7 +25,7 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//span[@class='avs_ac_iata'][contains(.,'PAR')]")]
         private IWebElement airportDestination;
 
-        [FindsBy(How = How.XPath, Using = "//div[@class='indexFormBg']")]
+        [FindsBy(How = How.XPath, Using = "//div[@class='bottomSubmit']")]
         private IWebElement form;
 
         [FindsBy(How = How.XPath, Using = "//input[@id='submit']")]
@@ -82,10 +82,10 @@ namespace Framework.Pages
 
         public void SetCountBabies()
         {
-            form.Click();
+            Thread.Sleep(2000);
             countBabies.Click();
             Thread.Sleep(2000);
-            IList<IWebElement> items = countBabies.FindElements(By.XPath("...//ul/li"));
+            IList<IWebElement> items = countBabies.FindElements(By.XPath("(//div[@class='dropdown'])[3]/ul/li"));
             items[items.Count - 1].Click();
         }
 
@@ -117,7 +117,6 @@ namespace Framework.Pages
 
         public void ClickButtonSearch()
         {
-            form.Click();
             buttonSearch.Click();
         }
     }

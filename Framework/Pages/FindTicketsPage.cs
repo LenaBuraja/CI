@@ -242,6 +242,7 @@ namespace Framework.Pages
 
         public bool GetMessageError()
         {
+            Thread.Sleep(2000);
             Console.WriteLine(driver.PageSource.Contains("message message--bad_search_params"));
             return driver.PageSource.Contains("message message--bad_search_params");
         }

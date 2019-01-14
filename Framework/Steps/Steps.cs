@@ -60,11 +60,11 @@ namespace Framework.Steps
         {
             StartPage startPage = new StartPage(driver);
             startPage.OpenPage();
+            startPage.SetCountBabies();
             startPage.setCitiesOriginAndDestination(cityOrigin, cityDestination);
             DateTime dateCurent = DateTime.Today;
             startPage.SetDepartDate(dateCurent.AddMonths(1));
             startPage.SetReturnDate(dateCurent.AddMonths(1).AddDays(3));
-            startPage.SetCountBabies();
             startPage.ClickButtonSearch();
         }
 

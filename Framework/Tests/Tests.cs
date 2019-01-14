@@ -25,7 +25,7 @@ namespace Framework.Tests
             steps.CloseBrowser();
         }
 
-        [Test] //+
+        [Test]
         public void DisplayFoundFlightsDirectFlight()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
@@ -33,7 +33,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsWithDirectFlight());
         }
 
-        [Test] //+
+        [Test]
         public void SearchForAirticketsWithLuggage()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
@@ -41,7 +41,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsWithoutLuggage());
         }
 
-        [Test] //+
+        [Test]
         public void DisplayFoundAirticketsAirlineBelavia()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
@@ -49,7 +49,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsWithoutUrlImage());
         }
 
-        [Test] //+
+        [Test]
         public void AutocorrectionReturnDateFieldWhenChangingDepartureDateWithFlagBackAndForth()
         {
             List<string> listDates = steps.GetDates();
@@ -58,7 +58,7 @@ namespace Framework.Tests
             Assert.IsTrue(returnDate >= departDate);
         }
 
-        [Test] //+
+        [Test]
         public void SearchDataMatchWithDataEntered()
         {
             Dictionary<string, string> getDatasStsrtPage = steps.GetDatasStartPageWithClickSearch(steps.FillInForm(CITY_ORIGIN, CITY_DISTINATION));
@@ -69,7 +69,7 @@ namespace Framework.Tests
                 && getDatasStsrtPage["returnDate"] == getDatasFindTicketsPage["returnDate"]);
         }
 
-        [Test] //+
+        [Test]
         public void DisplayFoundAirticketsAgencyBelavia()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
@@ -77,7 +77,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isAllTicketsFromBelavia());
         }
 
-        [Test] //+
+        [Test]
         public void DisplayFoundAirticketsAirportCDG()
         {
             steps.FillInFormWithClick(CITY_ORIGIN, CITY_DISTINATION);
@@ -92,7 +92,7 @@ namespace Framework.Tests
             Assert.IsTrue(steps.isMessageIncorrectForm());
         }
 
-        [Test] //+
+        [Test]
         public void DisplayFoundAirticketsInOneWayWhenSelectedModeOneWay()
         {
             steps.FillInFormForModeOneWayWithClick(CITY_ORIGIN, CITY_DISTINATION);
