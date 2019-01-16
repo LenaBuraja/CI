@@ -77,6 +77,7 @@ namespace Framework.Pages
             departDate.Clear();
             departDate.SendKeys(valueDate.ToString("yyyy-MM-dd"));
             departDate.SendKeys(Keys.Enter);
+            departDateCalendar.Click();
         }
 
         public void SetReturnDate(DateTime valueDate)
@@ -84,7 +85,7 @@ namespace Framework.Pages
             returnDate.Clear();
             returnDate.SendKeys(valueDate.ToString("yyyy-MM-dd"));
             returnDate.SendKeys(Keys.Enter);
-            returnDateCalendar.Click();
+            //returnDateCalendar.Click();
         }
 
         public void SetCountBabies()
