@@ -37,6 +37,12 @@ namespace Framework.Pages
         [FindsBy(How = How.XPath, Using = "//input[@id='return_date']")]
         private IWebElement returnDate;
 
+        [FindsBy(How = How.XPath, Using = "//div[@class='datePickers secondDiv aviasales_error_field_container']/img[@class='ui-datepicker-trigger']")]
+        private IWebElement returnDateCalendar;
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='datePickers firstDiv aviasales_error_field_container']/img[@class='ui-datepicker-trigger']")]
+        private IWebElement departDateCalendar;
+
         private IWebDriver driver;
 
         public StartPage(IWebDriver driver)
@@ -78,6 +84,7 @@ namespace Framework.Pages
             returnDate.Clear();
             returnDate.SendKeys(valueDate.ToString("yyyy-MM-dd"));
             returnDate.SendKeys(Keys.Enter);
+            returnDateCalendar.Click();
         }
 
         public void SetCountBabies()
