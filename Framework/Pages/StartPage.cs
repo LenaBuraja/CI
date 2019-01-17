@@ -85,7 +85,7 @@ namespace Framework.Pages
             returnDate.Clear();
             returnDate.SendKeys(valueDate.ToString("yyyy-MM-dd"));
             returnDate.SendKeys(Keys.Enter);
-            //returnDateCalendar.Click();
+            returnDateCalendar.Click();
         }
 
         public void SetCountBabies()
