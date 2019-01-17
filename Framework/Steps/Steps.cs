@@ -25,10 +25,10 @@ namespace Framework.Steps
         {
             StartPage startPage = new StartPage(driver);
             startPage.OpenPage();
-            startPage.setCitiesOriginAndDestination(cityOrigin, cityDestination);
             DateTime dateCurent = DateTime.Today;
             startPage.SetDepartDate(dateCurent.AddMonths(1));
             startPage.SetReturnDate(dateCurent.AddMonths(1).AddDays(3));
+            startPage.setCitiesOriginAndDestination(cityOrigin, cityDestination);
             return startPage;
         }
 
@@ -38,6 +38,7 @@ namespace Framework.Steps
             startPage.OpenPage();
             DateTime dateCurent = DateTime.Today;
             startPage.SetDepartDate(dateCurent.AddMonths(1));
+            startPage.setCitiesOriginAndDestination(cityOrigin, cityDestination);
             return startPage;
         }
 
